@@ -1,4 +1,4 @@
-#%%
+# JUST CHECK
 import numpy as np
 import os 
 
@@ -15,4 +15,3 @@ print(f"{'-'*10}\nDESCRIPTOR CHECKS\n{'-'*10}")
 for d in descriptors:
     arr = np.load(f"arrays/{d}")
     print(f"descriptor:     {d[:-4].ljust(20)} -      shape: {arr.shape}")
-# %%

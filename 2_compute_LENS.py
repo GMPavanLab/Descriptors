@@ -1,9 +1,10 @@
-#%%
+#THIS CODE IS USED TO COMPUTE LENS DESCRIPTOR
 import h5py
 import numpy as np
 import dynsight 
+#LENS cutoff
 LENS_CUTOFF = 10
-#%%
+#Load HDF5 file (see code 1_*)
 in_file = "ice_water_O.hdf5"
 traj_name = "ice_water_O"
 frames_range = slice(0,500)
@@ -23,7 +24,8 @@ with h5py.File(in_file, "r+") as file:
 with h5py.File(in_file, "r") as file:
     LENS = np.array(file["LENS"][f"LENS_{int(LENS_CUTOFF)}"][0,:,:])
     np.save(f"arrays/LENS_{int(LENS_CUTOFF)}",LENS)
-# %% Spatial smoothing
+
+# Local denoising (Spatial smoothing)
 input_file = "ice_water_O.hdf5"
 with h5py.File(input_file, "r") as file:
     traj_array = np.array(file["Trajectories/ice_water_O/Trajectory"])
@@ -44,5 +46,3 @@ for cutoff in sp_cutoff:
                                                     cutoff=cutoff, 
                                                     volume_shape = volume_shape)
     np.save(res_array,averaged.T)
-
-# %%

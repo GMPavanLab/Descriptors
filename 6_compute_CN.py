@@ -1,12 +1,12 @@
-#%% 
+#THIS CODE IS USED TO COMPUTE Nneigh
 import h5py
 import MDAnalysis as mda
 import numpy as np
 from MDAnalysis.analysis.distances import distance_array
 import dynsight
 
+#Nneigh cutoff..
 nn_cutoff = 10
-#%%
 def compute_distance(p1, p2, Lx, Ly, Lz):
     dp = np.abs(p2-p1)
     dp = np.minimum(dp, np.array([Lx,Ly,Lz]) - dp)
@@ -16,7 +16,6 @@ simulation_folder = "simulation"
 topo_file = f"{simulation_folder}/ice_water.gro"
 traj_file = f"{simulation_folder}/ice_water_500.xtc"
 u = mda.Universe(topo_file, traj_file)
-#selected_atoms = u.select_atoms("type 1 or type 2")
 print(u.dimensions)
 
 
@@ -32,7 +31,7 @@ nn = np.array(coord_numbers_per_frame)
 nn = nn.T
 np.save(f"arrays/nn_{nn_cutoff}.npy", nn[::3,:])
 
-# %% Spatial smoothing
+# Local denoising (Spatial smoothing)
 input_file = "ice_water_O.hdf5"
 with h5py.File(input_file, "r") as file:
     traj_array = np.array(file["Trajectories/ice_water_O/Trajectory"])

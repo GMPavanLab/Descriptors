@@ -1,10 +1,10 @@
-#%%
+#THIS CODE IS USED TO COMPUTE SOAP DESCRIPTOR
 import h5py
 import dynsight
 import numpy as np
+#SOAP cutoff
 SOAP_CUTOFF = 10
 
-# %%
 traj_name = "ice_water_O"
 in_file = f"{traj_name}.hdf5"
 
@@ -26,10 +26,9 @@ with h5py.File(in_file, "r") as file:
 filled_soap = dynsight.soapify.fill_soap_vector_from_dscribe(soap,lmax=8,nmax=8)
 with h5py.File(in_file, "a") as file:
     file["SOAP"][f"SOAP_{int(SOAP_CUTOFF)}"].create_dataset("fill_SOAP", data=filled_soap)
-#np.save(f"arrays/SOAP_{int(SOAP_CUTOFF)}", soap)
 np.save(f"arrays/fullvect_SOAP_{int(SOAP_CUTOFF)}", filled_soap)
 
-# %% Spatial smoothing
+# Local denoising (Spatial smoothing)
 input_file = "ice_water_O.hdf5"
 with h5py.File(input_file, "r") as file:
     traj_array = np.array(file["Trajectories/ice_water_O/Trajectory"])

@@ -1,4 +1,6 @@
-#%%
+# COMPUTE ONION
+# THIS CODE USES A DEPRECATED VERSION OF ONION
+# CONSIDER TO CHANGE THIS CODE WITH THE NEW VERSION
 import os
 import shutil
 from pathlib import Path

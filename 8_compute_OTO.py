@@ -1,8 +1,8 @@
-#%%
+#THIS CODE IS USED TO COMPUTE q_tet
 import numpy as np
 import h5py
 import dynsight
-#%%
+
 def read_from_xyz(filename):
     with open(filename, "r") as file:
         lines = file.readlines()
@@ -146,7 +146,7 @@ q = compute_oto("trajectory.xyz", box_array)
 # write_xyz(trajectory,q,"oto.xyz", "Properties=pos:R:3:color:S:1")
 np.save("arrays/OTO.npy",q)
 
-# %% Spatial smoothing
+# Local denoising (Spatial smoothing)
 input_file = "ice_water_O.hdf5"
 with h5py.File(input_file, "r") as file:
     traj_array = np.array(file["Trajectories/ice_water_O/Trajectory"])

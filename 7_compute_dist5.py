@@ -1,11 +1,10 @@
-#%%
+#THIS CODE IS USED TO COMPUTE d5
 import h5py
 import MDAnalysis as mda
 import numpy as np
 from MDAnalysis.analysis.distances import distance_array
 import dynsight
 
-#%%
 print(f"{'-'*10}\nDIST 5\n{'-'*10}")
 simulation_folder = "simulation"
 topo_file = f"{simulation_folder}/ice_water.gro"
@@ -20,14 +19,12 @@ for ts in u.trajectory:
     id = np.argsort(distances)
     for i in range(0,6):
         print(f"atom {i}) coord: {selection.positions[i]}")
-    #print(f"distances: {sort_distances[0,1:5]}")
-    #print(f"id: {id[0,1:5]}")
     for i in range(sort_distances.shape[0]):
         dist_5[i,a] = sort_distances[i,5]
     a += 1
     dist_5 = np.array(dist_5)
 np.save("arrays/dist_5.npy",dist_5)
-# %% Spatial smoothing
+# Local denoising (Spatial smoothing)
 input_file = "ice_water_O.hdf5"
 with h5py.File(input_file, "r") as file:
     traj_array = np.array(file["Trajectories/ice_water_O/Trajectory"])
